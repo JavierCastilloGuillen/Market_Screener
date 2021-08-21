@@ -24,7 +24,7 @@ path = (r"C:\Users\javie\Desktop\Screener_Arg\data")
 # 4. Manejo de fechas. Recordad modificar days_back si necesitamos indicadores con más longitud de datos (mm200, etc.)
 # 4. Date handling. Remember to modify days_back in case we need indicators with longer data (sma200, etc.)
 
-days_back = 50
+days_back = 100
 
 
 today = datetime.now()
@@ -37,7 +37,7 @@ start = datetime.strftime(start, '%d/%m/%Y')
 # 5. Data gathering process through investpy library for especies.csv on (Ticker) column
 
 count = 0
-for ticker in stocks['Ticker']:
+for ticker in stocks['Ticker'][:10]:
 	try:
 		count+= 1
 		time.sleep(0.5)
@@ -261,5 +261,4 @@ for filename in os.listdir(path):
 		print(f'{symbol} Bollinger Signal UP')
 	if Bollinger_signal_down(df):
 		print(f'{symbol} Bollinger Signal DOWN')
-
 
