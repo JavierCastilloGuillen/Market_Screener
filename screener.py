@@ -1,7 +1,5 @@
 
 import pandas as pd
-import datetime as dt
-import pandas_datareader as pdr
 import os
 import investpy
 import time
@@ -33,7 +31,6 @@ today = datetime.now()
 start = today -timedelta(days_back)
 today = datetime.strftime(today, '%d/%m/%Y')
 start = datetime.strftime(start, '%d/%m/%Y')
-
 
 
 # 5. Proceso de solicitud de datos a través de la librería investpy para el documento especies.csv columna (Ticker)
