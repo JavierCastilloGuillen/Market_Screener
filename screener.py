@@ -37,7 +37,7 @@ start = datetime.strftime(start, '%d/%m/%Y')
 # 5. Data gathering process through investpy library for especies.csv on (Ticker) column
 
 count = 0
-for ticker in stocks['Ticker'][:10]:
+for ticker in stocks['Ticker']:
 	try:
 		count+= 1
 		time.sleep(0.5)
