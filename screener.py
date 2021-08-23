@@ -33,13 +33,10 @@ path = (r"C:\Users\javie\Desktop\Screener_Arg\data")
 # 4. Manejo de fechas. Recordad modificar days_back si necesitamos indicadores con más longitud de datos (mm200, etc.)
 # 4. Date handling. Remember to modify days_back in case we need indicators with longer data (sma200, etc.)
 
-days_back = 100
-
 today = datetime.now()
 start = today -timedelta(days_back)
 today = datetime.strftime(today, '%d/%m/%Y')
 start = datetime.strftime(start, '%d/%m/%Y')
-
 
 # 5. Proceso de solicitud de datos a través de la librería investpy para el documento especies.csv columna (Ticker)
 # 5. Data gathering process through investpy library for especies.csv on (Ticker) column
