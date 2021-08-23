@@ -225,7 +225,7 @@ def breaking_out_signal(df, perc=1,):
 
 ###### START SCREENER ########## with our data stored in .CSV format
 
-print(f'------------ START SCREENER for {len(stocks)} assets: data from {start} until {today}-----------')
+print(f'------------ START SCREENER in {country} for {len(stocks)} assets: data from {start} until {today}-----------')
 print('--------- BREAKOUTS ------------')
 for filename in os.listdir(path):
 	df = pd.read_csv(path+f'\{filename}')
@@ -268,4 +268,4 @@ for filename in os.listdir(path):
 
 
 # Delete stored information UNCOMMENT IF WANT TO REMOVE AFTER SCREENER
-shutil.rmtree(path)
+# shutil.rmtree(path)
