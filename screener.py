@@ -1,6 +1,7 @@
 
 import pandas as pd
 import os
+import shutil
 import investpy
 import time
 from datetime import datetime, timedelta
@@ -13,9 +14,17 @@ warnings.filterwarnings('ignore')
 if not os.path.exists('data'):
     os.mkdir('data')
 
-# 2. Para este ejemplo, leeremos los activos del documento especies.csv.
-# 2. On this particular script, we will read our data from especies.csv. 
-stocks = pd.read_csv('especies.csv')
+# 2. Para este ejemplo, leeremos los activos de la propia base de datos.
+# 2. On this particular script, we will read our data from the database. 
+
+country ='Argentina'
+days_back = 100
+today = datetime.now()
+start = today -timedelta(days_back)
+today = datetime.strftime(today, '%d/%m/%Y')
+start = datetime.strftime(start, '%d/%m/%Y')
+stocks = investpy.get_stocks_overview(country, n_results=1000)
+stocks = stocks.drop_duplicates(subset='symbol')
 
 # 3. Seleccionamos la ruta en la que estará nuestro proyecto con el final en \data puesto que ahí se almacenará la información.
 # 3. Select the path in where our project will be stored. Remember end on \data puesto que ahí se almacenará la información.
@@ -25,7 +34,6 @@ path = (r"C:\Users\javie\Desktop\Screener_Arg\data")
 # 4. Date handling. Remember to modify days_back in case we need indicators with longer data (sma200, etc.)
 
 days_back = 100
-
 
 today = datetime.now()
 start = today -timedelta(days_back)
@@ -37,20 +45,18 @@ start = datetime.strftime(start, '%d/%m/%Y')
 # 5. Data gathering process through investpy library for especies.csv on (Ticker) column
 
 count = 0
-for ticker in stocks['Ticker']:
-	try:
-		count+= 1
-		time.sleep(0.5)
-		df = investpy.get_stock_historical_data(stock=ticker,country='Argentina',from_date=f'{start}', to_date=f'{today}')
-		# ----> if we wish see the data ;) print(df)
-		df= df.rename(columns={"Close": "Adj Close"})
-		print(f'Analyzing {count}.....{ticker}')
-		print(df.tail())
-		df.to_csv(fr'data/{ticker}.csv')
-		time.sleep(1)
-	except Exception as e:
-		print(e)
-		print(f'No data on {ticker}')
+for ticker in stocks['symbol']:
+    try:
+        count += 1
+        df = investpy.get_stock_historical_data(stock=ticker,country=country,from_date=f'{start}', to_date=f'{today}')
+        df= df.rename(columns={"Close": "Adj Close"})
+        print(f'Analyzing {count}.....{ticker}')
+        print(df.tail())
+        df.to_csv(fr'data/{ticker}.csv')
+        time.sleep(0.25)
+    except Exception as e:
+        print(e)
+        print(f'No data on {ticker}')
 
 
 # 6. A continuación definiremos algún ejemplo de funciones técnicas utilizando 
@@ -76,13 +82,11 @@ def MACD_signal_up(df):
 		if (df[-2:]['MACD'].values[0] <= df[-1:]['MACD'].values[0]) and (df[-2:]['MACD'].values[0] <= df[-2:]['Signal'].values[0]) and (df[-1:]['MACD'].values[0]>=df[-1:]['Signal'].values[0]) and df[-1:]['MACD'].values[0]<= 0:
 			print(f'{symbol} MACD UP alert below 0')
 			df['Below_0_Crossover_MACD_Signal'][-1] = True
-
 		else:
 			print(f'{symbol} MACD UP alert')
 			df['Simple_Crossover_MACD_Signal'][-1] = True
 			df['Below_0_Crossover_MACD_Signal'][-1] = False
 			return True
-
 	return False
 
 def MACD_signal_down(df):
@@ -221,7 +225,7 @@ def breaking_out_signal(df, perc=1,):
 
 ###### START SCREENER ########## with our data stored in .CSV format
 
-print(f'------------ START SCREENER: data from {start} until {today}-----------')
+print(f'------------ START SCREENER for {len(stocks)} assets: data from {start} until {today}-----------')
 print('--------- BREAKOUTS ------------')
 for filename in os.listdir(path):
 	df = pd.read_csv(path+f'\{filename}')
@@ -262,3 +266,6 @@ for filename in os.listdir(path):
 	if Bollinger_signal_down(df):
 		print(f'{symbol} Bollinger Signal DOWN')
 
+
+# Delete stored information UNCOMMENT IF WANT TO REMOVE AFTER SCREENER
+shutil.rmtree(path)
