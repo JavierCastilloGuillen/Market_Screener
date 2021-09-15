@@ -24,7 +24,7 @@ A medida que tenga tiempo iré complementando con algún recurso más.
 
 Technical Screener.
 
-Video on youtube: https://www.youtube.com/watch?v=Dr51rhwa2TY
+Video on youtube: https://www.youtube.com/watch?v=ewr_2nkHsxo
 
 The project is intended to be an introduction to the essential technical screener, in this case adapted to the Argentina market. Although scalable depending on the data source.
 
