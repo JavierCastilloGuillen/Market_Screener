@@ -22,11 +22,11 @@ A medida que tenga tiempo iré complementando con algún recurso más.
 # Technical Screener
 [EN]
 
-Technical Screener Argentina.
+Technical Screener.
 
 Video on youtube: https://www.youtube.com/watch?v=Dr51rhwa2TY
 
-The project is intended to be an introduction to the essential technical screener, in this case adapted to the Argentine market. Although scalable depending on the data source.
+The project is intended to be an introduction to the essential technical screener, in this case adapted to the Argentina market. Although scalable depending on the data source.
 
 The main libraries used will be:
 TA - For technical analysis: https://technical-analysis-library-in-python.readthedocs.io/en/latest/index.html
