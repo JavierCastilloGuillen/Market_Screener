@@ -1,5 +1,6 @@
 # Screener_Argentina
-Technical Screener Argentina
+Technical Screener Argentina.
+
 Video en youtube: https://www.youtube.com/watch?v=Dr51rhwa2TY
 
 El proyecto tiene la intención de ser una iniciación al screener esencial técnico, en este caso adaptado al mercado argentino. Aunque escalable dependiendo de la fuente de datos.
