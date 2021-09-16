@@ -1,8 +1,10 @@
 # Important
+[ES] & [EN]
 
 This repository contains a script we used in a class (screener_csv.py) and the screener.py itself.
 
 The screener_csv.py has some functions which are not essential/efficient (storing data, os functions, etc.) but comes from a learning environment.
+
 For screening and further usage go to screener.py which is computationally more efficient.
 
 # Screener Técnico
