@@ -1,3 +1,10 @@
+# Important
+
+This repository contains a script we used in a class (screener_csv.py) and the screener.py itself.
+
+The screener_csv.py has some functions which are not essential/efficient (storing data, os functions, etc.) but comes from a learning environment.
+For screening and further usage go to screener.py which is computationally more efficient.
+
 # Screener Técnico
 [ES] & [EN]
 
@@ -5,7 +12,7 @@
 [ES]
 Screener técnico.
 
-Video en youtube: https://www.youtube.com/watch?v=Dr51rhwa2TY
+Video de ayuda en youtube: https://www.youtube.com/watch?v=Dr51rhwa2TY
 
 El proyecto tiene la intención de ser una iniciación al screener esencial técnico, en este caso adaptado al mercado de Argentina. Aunque escalable dependiendo de la fuente de datos.
 
@@ -24,7 +31,7 @@ A medida que tenga tiempo iré complementando con algún recurso más.
 
 Technical Screener.
 
-Video on youtube: https://www.youtube.com/watch?v=ewr_2nkHsxo
+Help video on youtube: https://www.youtube.com/watch?v=ewr_2nkHsxo
 
 The project is intended to be an introduction to the essential technical screener, in this case adapted to the Argentina market. Although scalable depending on the data source.
 

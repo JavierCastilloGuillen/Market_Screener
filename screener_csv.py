@@ -1,4 +1,18 @@
 """
+Note: This is a script used as example for the class:
+- For computationally efficient script USE screener.py on
+this repository.
+
+Which topics we will work here:
+1. System process (make folder - delete folder with data)
+2. Data process (gather - cleasing - store in .csv - read .csv)
+3. Dates introduction (TimeSeries)
+4. List creation and append values
+5. Function creations (Technical screener)
+6. Conditional statments (screening process)
+7. Usage of some librarires (investpy / yfinance - pandas (essentials) - TA)
+8. Try/Except and introduction to errors.
+
 This screener the skeleton for a basic market screener. It will help you with:
 
 1. Market Technical Screening
@@ -18,16 +32,73 @@ country ='Argentina' <- Change this country for the required one
 days_back = 120 <- Data gathering from this day. Will impact on the indicators (200SMA won't work on 120 days of data ;-) )
 stocks = investpy.get_stocks_overview(country, n_results=1000) <- n_results=1000 For wider markets go for bigger results.
 
-
 """
 
+
+
+import pandas as pd
+import os
+import shutil
 import investpy
 import time
 from datetime import datetime, timedelta
 import warnings
 warnings.filterwarnings('ignore')
 
-# List to store variables after screener is launched
+
+# 1. Creamos la carpeta donde se almacenan temporalmente los .csv
+# 1. We will create the path were our temporary data will be stored in .csv
+if not os.path.exists('data'):
+    os.mkdir('data')
+
+# 2. Para este ejemplo, leeremos los activos de la propia base de datos.
+# 2. On this particular script, we will read our data from the database. 
+
+country ='Argentina'
+days_back = 120
+today = datetime.now()
+start = today -timedelta(days_back)
+today = datetime.strftime(today, '%d/%m/%Y')
+start = datetime.strftime(start, '%d/%m/%Y')
+stocks = investpy.get_stocks_overview(country, n_results=1000)
+stocks = stocks.drop_duplicates(subset='symbol')
+
+# 3. Seleccionamos la ruta en la que estará nuestro proyecto con el final en \data puesto que ahí se almacenará la información.
+# 3. Select the path in where our project will be stored. Remember end on \data puesto que ahí se almacenará la información.
+path = (r"data")
+
+# 4. Manejo de fechas. Recordad modificar days_back si necesitamos indicadores con más longitud de datos (mm200, etc.)
+# 4. Date handling. Remember to modify days_back in case we need indicators with longer data (sma200, etc.)
+
+today = datetime.now()
+start = today -timedelta(days_back)
+today = datetime.strftime(today, '%d/%m/%Y')
+start = datetime.strftime(start, '%d/%m/%Y')
+
+# 5. Proceso de solicitud de datos a través de la librería investpy para el documento especies.csv columna (Ticker)
+# 5. Data gathering process through investpy library for especies.csv on (Ticker) column
+
+count = 0
+for ticker in stocks['symbol']:
+    try:
+        count += 1
+        df = investpy.get_stock_historical_data(stock=ticker,country=country,from_date=f'{start}', to_date=f'{today}')
+        df= df.rename(columns={"Close": "Adj Close"})
+        # print(f'Analyzing {count}.....{ticker}')
+        # print(df.info())  <== To see what you're getting
+        df.to_csv(fr'data/{ticker}.csv')
+        time.sleep(0.25)
+    except Exception as e:
+        print(e)
+        print(f'No data on {ticker}')
+
+
+# 6. A continuación definiremos algún ejemplo de funciones técnicas utilizando
+# la librería TA para análisis técnico. Modificar al gusto de cada usuario.
+# Además, crearemos las listas para añadir nuestros ticker que cumplan con el screener.
+# 6. Following we will write some functions in order to retreive the technical 
+# indicator from TA, add it to our dataframe and define logics for the signals.
+# On top, we will create the list to fulfill with the tickers filtered.
 
 b_out = []
 cons = []
@@ -45,10 +116,6 @@ on_rsi_up = []
 rsi_up = []
 rsi_bf_d = []
 rsi_bf_up = []
-
-# Functions area. Create here as many functions as required for the screener. 
-# Some basic technical examples shown (MACD, RSI, BB) and some price actions Consolidation and Breakout.
-
 
 def MACD_signal_up(df):
 	"""
@@ -221,6 +288,9 @@ def RSI_signal_down(df, window= 14):
 			return True
 	return False
 
+
+# Price action Functions (candlesticks patterns, consolidations, breakouts etc.)
+
 def consolidating_signal(df, perc = 3.5):
 	"""
 	This Function will analyze the asset is consolidating within the perc range.
@@ -258,71 +328,46 @@ def breaking_out_signal(df, perc=1,):
 	return False
 
 
-# Screener parameters (country, days_back and n_results) depending on indicators and market must be changed.
-
-country ='Argentina'
-days_back = 120
-today = datetime.now()
-start = today -timedelta(days_back)
-today = datetime.strftime(today, '%d/%m/%Y')
-start = datetime.strftime(start, '%d/%m/%Y')
-stocks = investpy.get_stocks_overview(country, n_results=1000)
-stocks = stocks.drop_duplicates(subset='symbol')
-
-# Dates
-today = datetime.now()
-start = today -timedelta(days_back)
-today = datetime.strftime(today, '%d/%m/%Y')
-start = datetime.strftime(start, '%d/%m/%Y')
-
-
-# Screener launch count variable added to while loop limit if necessary to control the API-HTTP call/requests.
-# Uncomment while and indent for if necessary.
-
-count = 0
-# while count < (n) :
-for symbol in stocks['symbol']:
-    try:
-        # count += 1       
-        df = investpy.get_stock_historical_data(stock=symbol,country=country,from_date=f'{start}', to_date=f'{today}')
-        time.sleep(0.25)
-        df= df.rename(columns={"Close": "Adj Close"})
-        if breaking_out_signal(df, 3):
-            pass		
-        if consolidating_signal(df, perc=2):
-            pass
-        if RSI_signal_up(df):
-            pass
-        if RSI_signal_down(df):
-            pass
-        if MACD_signal_up(df):
-            pass
-        if MACD_signal_down(df):
-            pass
-        if Bollinger_signal_up(df):
-            pass
-        if Bollinger_signal_down(df):
-            pass
-        
-    except Exception as e:
-        print(f'No data on {symbol}')
-        print(e)
-
-
-# OUTPUT => For the example just a print, but you've got the tickers stored on the variables to do further analysis
-
-
+# START SCREENER  with our data stored in .CSV format
 print(f'--------- GENERAL MARKET SCREENER in {country} for {len(stocks)} assets: data analyzed from {start} until {today} --------\n')
+
+for filename in os.listdir(path):
+	df = pd.read_csv(path+f'\{filename}')
+	symbol = filename.split(".")[0]
+	if breaking_out_signal(df, 3):
+		pass
+	if consolidating_signal(df, perc=2):
+		pass
+	if RSI_signal_up(df):
+		pass
+	if RSI_signal_down(df):
+		pass
+	if MACD_signal_up(df):
+		pass
+	if MACD_signal_down(df):
+		pass
+	if Bollinger_signal_up(df):
+		pass
+	if Bollinger_signal_down(df):
+		pass
+
+
+
+
+# OUTPUT
+
 print('--- BOLLINGER ANALYSIS --- \n')
 print(f'The stocks on SIGNAL BOLLINGER UP are:\n==> {bb_up}\n')
 print(f'The stocks are already in BOLLINGER UP:\n==> {already_bb_up}\n')
 print(f'The stocks on SIGNAL BOLLINGER DOWN are:\n==> {bb_d}\n')
 print(f'The stocks are already in BOLLINGER_DOWN:\n==> {already_bb_d}\n')
+
 print('--- MACD ANALYSIS --- \n')
 print(f'The stocks on MACD SIGNAL UP are:\n==> {mcd_up}\n')
 print(f'The stocks on MACD SIGNAL UP BELOW 0 are:\n==> {mcd_up0}\n')
 print(f'The stocks on MACD SIGNAL DOWN are:\n==> {mcd_d} \n')
 print(f'The stocks on MACD SIGNAL DOWN above 0 are:\n==> {mcd_d0}\n')
+
 print('--- RSI ANALYSIS --- \n')
 print(f'The stocks on OVERBOUGHT SIGNAL [RSI] are:\n==> {rsi_up}\n')
 print(f'The stocks on OVERSOLD SIGNAL [RSI] are:\n==> {rsi_d}\n')
@@ -330,9 +375,13 @@ print(f'The stocks went to RANGE from OVERSOLD are:\n==> {rsi_bf_d}\n')
 print(f'The stocks went to RANGE from OVERBOUGHT are:\n==> {rsi_bf_up}\n')
 print(f'The stocks on OVERBOUGHT [RSI] are:\n==> {on_rsi_up}\n')
 print(f'The stocks on OVERSOLD [RSI] are:\n==> {on_rsi_d}\n')
+
+
 print('--- PRICE ACTION ANALYSIS --- \n')
 print(f'The stocks on CONSOLIDATION are:\n==> {cons}\n')
 print(f'The stocks on BREAKOUT are:\n==> {b_out}\n')
 
 
 
+# Delete stored information UNCOMMENT IF WANT TO REMOVE AFTER SCREENER
+shutil.rmtree(path)
