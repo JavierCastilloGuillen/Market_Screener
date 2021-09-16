@@ -1,7 +1,7 @@
 # Important
 [ES] & [EN]
 
-This repository contains a script we used in a class (screener_csv.py) and the screener.py itself.
+This repository contains a script we used in a educational class (screener_csv.py) and the screener.py itself.
 
 The screener_csv.py has some functions which are not essential/efficient (storing data, os functions, etc.) but comes from a learning environment.
 
