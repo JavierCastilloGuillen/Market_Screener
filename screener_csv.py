@@ -352,8 +352,6 @@ for filename in os.listdir(path):
 		pass
 
 
-
-
 # OUTPUT
 
 print('--- BOLLINGER ANALYSIS --- \n')
@@ -376,12 +374,9 @@ print(f'The stocks went to RANGE from OVERBOUGHT are:\n==> {rsi_bf_up}\n')
 print(f'The stocks on OVERBOUGHT [RSI] are:\n==> {on_rsi_up}\n')
 print(f'The stocks on OVERSOLD [RSI] are:\n==> {on_rsi_d}\n')
 
-
 print('--- PRICE ACTION ANALYSIS --- \n')
 print(f'The stocks on CONSOLIDATION are:\n==> {cons}\n')
 print(f'The stocks on BREAKOUT are:\n==> {b_out}\n')
-
-
 
 # Delete stored information UNCOMMENT IF WANT TO REMOVE AFTER SCREENER
 shutil.rmtree(path)
