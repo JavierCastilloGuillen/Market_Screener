@@ -275,7 +275,6 @@ start = today -timedelta(days_back)
 today = datetime.strftime(today, '%d/%m/%Y')
 start = datetime.strftime(start, '%d/%m/%Y')
 
-
 # Screener launch count variable added to while loop limit if necessary to control the API-HTTP call/requests.
 # Uncomment while and indent for if necessary.
 
