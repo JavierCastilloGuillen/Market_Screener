@@ -16,7 +16,10 @@ Screener técnico.
 
 Video de ayuda en youtube: https://www.youtube.com/watch?v=Dr51rhwa2TY
 
-El proyecto tiene la intención de ser una iniciación al screener esencial técnico, en este caso adaptado al mercado de Argentina. Aunque escalable dependiendo de la fuente de datos.
+El proyecto tiene la intención de ser una iniciación al screener esencial técnico. Viene derivado de una clase (propósito educacional).
+
+El ejemplo usado es adaptado al mercado de Argentina. Aunque escalable a distintos mercados (USA - EUROPA - Crypto - Forex, etc). Tanto por 
+la propia librería investpy, como manteniendo las funciones y utilizando otras librerías.
 
 Las librerías principales utilizadas serán:
 
@@ -38,7 +41,10 @@ Technical Screener.
 
 Help video on youtube: https://www.youtube.com/watch?v=ewr_2nkHsxo
 
-The project is intended to be an introduction to the essential technical screener, in this case adapted to the Argentina market. Although scalable depending on the data source.
+The project is intended to be an introduction to the essential technical screener. The project is coming from a lesson, therefore has educational purpose.
+
+In this case adapted to the Argentina market. Although scalable to different markets (US - EUROPE - Crypto - FX, etc) Using the same library or others and
+keeping the main functions.
 
 The main libraries used will be:
 
