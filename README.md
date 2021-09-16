@@ -10,8 +10,6 @@ For screening and further usage go to screener.py which is computationally more 
 Although it uses stocks, it works for crypto, currencies, etc just by changing data source or adding specific functions. As said, is the skeleton.
 
 # Screener Técnico
-[ES] & [EN]
-
 
 [ES]
 Screener técnico.
